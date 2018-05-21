@@ -1,0 +1,42 @@
+{
+  "name": "datos-ext",
+  "description": "App de administración de datos externos",
+  "version": "0.1.0",
+  "author": "Codenautas <codenautas@googlegroups.com>",
+  "license": "MIT",
+  "main": "server/app-datos-ext.js",
+  "files": [
+    "client",
+    "install",
+    "server",
+    "unlogged"
+  ],
+  "dependencies": {
+    "backend-plus": "~0.20.58",
+    "mini-tools": "~1.0.0",
+    "require-bro": "~0.1.11"
+  },
+  "devDependencies": {
+    "@types/mocha": "~5.2.0",
+    "@types/yazl": "~2.4.0",
+    "discrepances": "~0.2.2",
+    "pg-triggers": "~0.2.1",
+    "types.d.ts": "~0.1.16"
+  },
+  "engines": {
+    "node": ">= 8.0.0"
+  },
+  "scripts": {
+    "test": "mocha --reporter spec --bail --check-leaks test/",
+    "prepublish": "(tsc -p tsconfig-client.json || echo \"continue w/error\") && (tsc -p tsconfig-server.json  || echo \"continue w/error\")",
+    "start": "node server/server-datos-ext.js"
+  },
+  "qa-control": {
+    "package-version": "0.3.0",
+    "coverage": 90,
+    "run-in": "server",
+    "stability": "extending",
+    "type": "app",
+    "ecmaVersion": 6
+  }
+}
