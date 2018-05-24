@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const origenes = require("./table-origenes");
+const variables = require("./table-variables");
+const variables_opciones = require("./table-variables_opciones");
 function emergeAppDatosExt(Base) {
     return class AppDatosExt extends Base {
         constructor(...args) {
@@ -22,6 +24,7 @@ function emergeAppDatosExt(Base) {
                     { menuType: 'table', name: 'operativos' },
                     { menuType: 'table', name: 'origenes', label: 'orígenes' },
                     { menuType: 'table', name: 'variables' },
+                    { menuType: 'proc', name: 'gen_varcal', label: 'regenerar', proc: 'calculadas/generar' },
                     { menuType: 'proc', name: 'generar', proc: 'origenes/generar' },
                     { menuType: 'table', name: 'usuarios' },
                 ] };
@@ -29,7 +32,9 @@ function emergeAppDatosExt(Base) {
         }
         prepareGetTables() {
             super.prepareGetTables();
-            this.getTableDefinition = Object.assign({}, this.getTableDefinition, { origenes });
+            this.getTableDefinition = Object.assign({}, this.getTableDefinition, { origenes,
+                variables,
+                variables_opciones });
             this.appendToTableDefinition('operativos', function (tableDef) {
                 tableDef.detailTables.push({ table: 'origenes', fields: ['operativo'], abr: 'O' });
             });

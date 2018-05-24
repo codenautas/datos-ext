@@ -1,10 +1,12 @@
 "use strict";
 
+import {TableDefinition} from "backend-plus"
 import {TableContext} from "./types-datos-ext"
 
-module.exports = function (context:TableContext) {
+export = variables
+function variables(context:TableContext):TableDefinition{
     var admin = context.user.rol === 'admin';
-    return context.be.tableDefAdapt({
+    return {
         name: 'variables',
         elementName: 'variable',
         editable: admin,
@@ -36,5 +38,5 @@ module.exports = function (context:TableContext) {
             { constraintType: 'check', expr: "tipovar in ('numero','texto','opciones')" },
             { constraintType: 'check', expr: "clase   in ('relevamiento','calculada','precalculada','externa')" },
         ],
-    }, context);
+    }
 }

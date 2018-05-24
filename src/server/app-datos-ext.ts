@@ -8,6 +8,8 @@ import * as BasOpe from "bas-ope";
 import {AppBasOpe,TableContext} from "bas-ope";
 
 import * as origenes from "./table-origenes";
+import * as variables from "./table-variables";
+import * as variables_opciones from "./table-variables_opciones";
 
 export type TableContext = TableContext;
 
@@ -34,11 +36,12 @@ export function emergeAppDatosExt<T extends Constructor<InstanceType<typeof AppB
         }
         getMenu():{menu:backendPlus.MenuInfoBase[]}{
             let menu:MenuDefinition = {menu:[
-                {menuType:'table'  , name:'operativos' },
-                {menuType:'table'  , name:'origenes'   , label:'orígenes'              },
-                {menuType:'table'  , name:'variables'  },
-                {menuType:'proc'   , name:'generar'    , proc:'origenes/generar'       },
-                {menuType:'table'  , name:'usuarios'   },
+                {menuType:'table'  , name:'operativos'                                                  },
+                {menuType:'table'  , name:'origenes'     , label:'orígenes'                             },
+                {menuType:'table'  , name:'variables'                                                   },
+                {menuType:'proc'   , name:'gen_varcal'   , label:'regenerar', proc:'calculadas/generar' },
+                {menuType:'proc'   , name:'generar'                         , proc:'origenes/generar'   },
+                {menuType:'table'  , name:'usuarios'                                                    },
             ]}
             return menu;
         }
@@ -46,7 +49,9 @@ export function emergeAppDatosExt<T extends Constructor<InstanceType<typeof AppB
             super.prepareGetTables();
             this.getTableDefinition={
                 ...this.getTableDefinition,
-                origenes
+                origenes,
+                variables,
+                variables_opciones
             }
             this.appendToTableDefinition('operativos', function(tableDef){
                 tableDef.detailTables.push(

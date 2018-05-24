@@ -1,10 +1,12 @@
 "use strict";
 
+import {TableDefinition} from "backend-plus"
 import {TableContext} from "./types-datos-ext"
 
-module.exports = function (context:TableContext) {
+export = variables_opciones
+function variables_opciones(context:TableContext):TableDefinition{
     var admin = context.user.rol === 'admin';
-    return context.be.tableDefAdapt({
+    return {
         name: 'variables_opciones',
         elementName: 'opción de variable',
         editable: admin,
@@ -21,7 +23,5 @@ module.exports = function (context:TableContext) {
         foreignKeys: [
             {references:'variables'      , fields:['operativo','variable']      },
         ],
-        constraints: [
-        ],
-    }, context);
+    }
 }
