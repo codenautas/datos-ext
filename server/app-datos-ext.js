@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const origenes = require("./table-origenes");
 function emergeAppDatosExt(Base) {
     return class AppDatosExt extends Base {
         constructor(...args) {
@@ -26,14 +27,12 @@ function emergeAppDatosExt(Base) {
                 ] };
             return menu;
         }
-        getTables() {
-            return super.getTables().concat([
-                'usuarios',
-                'operativos',
-                'origenes',
-                'variables',
-                'variables_opciones',
-            ]);
+        prepareGetTables() {
+            super.prepareGetTables();
+            this.getTableDefinition = Object.assign({}, this.getTableDefinition, { origenes });
+            this.appendToTableDefinition('operativos', function (tableDef) {
+                tableDef.detailTables.push({ table: 'origenes', fields: ['operativo'], abr: 'O' });
+            });
         }
     };
 }

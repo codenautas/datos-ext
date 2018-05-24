@@ -4,24 +4,16 @@ import {AppBackend,Request} from "backend-plus";
 import * as backendPlus from "backend-plus";
 import * as pgPromise from "pg-promise-strict";
 import * as express from "express";
+import * as BasOpe from "bas-ope";
+import {AppBasOpe,TableContext} from "bas-ope";
 
-interface Context extends backendPlus.Context{
-    puede:object
-    superuser?:true
-}
+import * as origenes from "./table-origenes";
 
-type MenuInfoMapa = {
-    menuType:'mapa'
-} & backendPlus.MenuInfoBase;
-
-type MenuInfo = backendPlus.MenuInfo | MenuInfoMapa;
-type MenuDefinition = {menu:MenuInfo[]}
-
- // interface MenuDefinition MenuInfoMapa
+export type TableContext = TableContext;
 
 export type Constructor<T> = new(...args: any[]) => T;
 
-export function emergeAppDatosExt<T extends Constructor<AppBackend>>(Base:T){
+export function emergeAppDatosExt<T extends Constructor<InstanceType<typeof AppBasOpe>>>(Base:T){
  
     return class AppDatosExt extends Base{
         constructor(...args:any[]){
@@ -50,15 +42,17 @@ export function emergeAppDatosExt<T extends Constructor<AppBackend>>(Base:T){
             ]}
             return menu;
         }
-        getTables(){
-            return super.getTables().concat([
-                'usuarios',
-                'operativos',
-                'origenes',
-                'variables',
-                'variables_opciones',
-            ]);
+        prepareGetTables(){
+            super.prepareGetTables();
+            this.getTableDefinition={
+                ...this.getTableDefinition,
+                origenes
+            }
+            this.appendToTableDefinition('operativos', function(tableDef){
+                tableDef.detailTables.push(
+                    {table:'origenes', fields:['operativo'], abr:'O'}
+                );
+            });
         }
     }
-
 }

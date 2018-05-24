@@ -1,5 +1,5 @@
 server:
-  port: 3058
+  port: 3031
   base-url: /datos-ext
   session-store: memory
 db:
@@ -29,7 +29,7 @@ install:
 login:
   table: usuarios
   userFieldName: usuario
-  passFieldName: clave
+  passFieldName: md5clave
   rolFieldName: rol
   infoFieldList: [usuario, rol]
   activeClausule: activo
@@ -44,7 +44,7 @@ login:
     loginForm:
       formTitle: Datos Ext
       usernameLabel: usuario
-      passwordLabel: clave
+      passwordLabel: md5clave
       buttonLabel: entrar
       formImg: img/login-lock-icon.png
     chPassForm:

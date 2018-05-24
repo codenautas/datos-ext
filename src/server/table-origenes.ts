@@ -1,10 +1,13 @@
 "use strict";
 
+import {TableDefinition} from "backend-plus"
 import {TableContext} from "./types-datos-ext"
 
-module.exports = function(context:TableContext){
+
+export = origenes
+function origenes(context:TableContext):TableDefinition{
     var admin=context.user.rol==='admin';
-    return context.be.tableDefAdapt({
+    return {
         name:'origenes',
         elementName:'origen',
         editable:admin,
@@ -19,5 +22,5 @@ module.exports = function(context:TableContext){
         detailTables:[
             {table:'variables'       , fields:['operativo','origen'], abr:'V'},
         ],
-    },context);
+    };
 }
