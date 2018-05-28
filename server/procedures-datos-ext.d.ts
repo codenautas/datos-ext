@@ -12,4 +12,4 @@ declare var ProceduresDatosExt: {
         origen: string;
     }) => Promise<any>;
 }[];
-export = ProceduresDatosExt;
+export { ProceduresDatosExt };
