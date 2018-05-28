@@ -1,10 +1,11 @@
 "use strict";
 
-import {ProcedureContext} from "backend-plus";
+import {ProcedureContext, Context} from "backend-plus";
 import * as VarCal from "varcal";
 import * as fs from "fs-extra";
 import * as likear from "like-ar";
 import {VariablesOpciones} from "./types-datos-ext";
+import { CompilerOptions } from "varcal";
 
 type OrigenesGenerarParameters={
     operativo: string
@@ -143,7 +144,12 @@ var ProceduresDatosExt = [
             var drops:string[]=[];
             var creates:string[]=[];
             var inserts:string[]=[];
-            var allPrefixedPks = {};
+            var allPrefixedPks:{
+                [key:string]:{
+                    pks: string[],
+                    pksString: string,
+                }
+            };
             var tableDefs={};
             var resTypeNameTipoVar= await context.client.query(`SELECT jsonb_object(array_agg(tipovar), array_agg(type_name)) 
                     FROM meta.tipovar                    
@@ -164,7 +170,7 @@ var ProceduresDatosExt = [
                 var broDef = be.tableStructures[estParaGen.sourceBro](be.getContextForDump())
                 var primaryKey=row.pk_padre.concat(row.pk_agregada);
                 primaryKey.unshift('operativo'); // GENE              
-                var prefixedPks = primaryKey.map(pk => row.unidad_analisis+'.'+pk);
+                var prefixedPks: string[] = primaryKey.map((pk:string) => row.unidad_analisis+'.'+pk);
                 allPrefixedPks[row.unidad_analisis] = {
                     pks: prefixedPks,
                     pksString: prefixedPks.join(', ')
@@ -187,7 +193,7 @@ var ProceduresDatosExt = [
                         isReferable: true
                     }
                 }
-                be.tableStructures[tableName]=tableDefs[tableName]=function(context){
+                be.tableStructures[tableName]=tableDefs[tableName]=function(context: Context){
                     return context.be.tableDefAdapt(tableDefParteCtte,context);
                 };
                 var pkString=primaryKey.join(', ');
@@ -211,7 +217,7 @@ var ProceduresDatosExt = [
                  AND v.activa
             `,[OPERATIVO]).fetchAll();
             function wrapExpression(expression: string, pkExpression:string){
-                var opts={language:'sql', varWrapper:'null2zero', divWrapper:'div0err', elseWrapper:'lanzar_error'};
+                var opts:CompilerOptions={language:'sql', varWrapper:'null2zero', divWrapper:'div0err', elseWrapper:'lanzar_error'};
                 return VarCal.getWrappedExpression(expression, pkExpression, opts);
             }
             var variablesACalcular = variablesDatoResult.rows.map(function(v){
@@ -239,7 +245,12 @@ var ProceduresDatosExt = [
                 SELECT variable, unidad_analisis, clase from variables
                 WHERE operativo = $1 AND activa
             `,[OPERATIVO]).fetchAll();
-            var allVariables = {};
+            var allVariables:{
+                [key:string]: {
+                    tabla: string,
+                    clase?: string
+                }
+            } = {};
             variablesDatoResult.rows.forEach(vDato=> allVariables[vDato.variable] = {tabla:vDato.unidad_analisis, clase: vDato.clase});
             likear(allPrefixedPks).forEach(function(prefixedPk, ua:string){
                 prefixedPk.pks.forEach(pk => allVariables[pk] = {tabla:ua})

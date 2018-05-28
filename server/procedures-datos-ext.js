@@ -119,7 +119,7 @@ var ProceduresDatosExt = [
             var drops = [];
             var creates = [];
             var inserts = [];
-            var allPrefixedPks = {};
+            var allPrefixedPks;
             var tableDefs = {};
             var resTypeNameTipoVar = await context.client.query(`SELECT jsonb_object(array_agg(tipovar), array_agg(type_name)) 
                     FROM meta.tipovar                    
@@ -140,7 +140,7 @@ var ProceduresDatosExt = [
                 var broDef = be.tableStructures[estParaGen.sourceBro](be.getContextForDump());
                 var primaryKey = row.pk_padre.concat(row.pk_agregada);
                 primaryKey.unshift('operativo'); // GENE              
-                var prefixedPks = primaryKey.map(pk => row.unidad_analisis + '.' + pk);
+                var prefixedPks = primaryKey.map((pk) => row.unidad_analisis + '.' + pk);
                 allPrefixedPks[row.unidad_analisis] = {
                     pks: prefixedPks,
                     pksString: prefixedPks.join(', ')
