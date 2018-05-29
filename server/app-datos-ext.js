@@ -23,7 +23,9 @@ function emergeAppDatosExt(Base) {
                     { menuType: 'table', name: 'origenes', label: 'orígenes' },
                     { menuType: 'table', name: 'variables' },
                     { menuType: 'proc', name: 'generar', proc: 'origenes/generar' },
-                    { menuType: 'table', name: 'usuarios' },
+                    { menuType: 'menu', name: 'admin', menuContent: [
+                            { menuType: 'table', name: 'usuarios' },
+                        ] }
                 ] };
             return menu;
         }
