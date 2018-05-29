@@ -1,9 +1,9 @@
 "use strict";
 
 import {emergeAppDatosExt} from "./app-datos-ext"
-import {emergeAppBasOpe} from "bas-ope"
+import {emergeAppOperativos} from "operativos"
 import { AppBackend } from "backend-plus"
 
-var AppDatosExt = emergeAppDatosExt(emergeAppBasOpe(AppBackend));
+var AppDatosExt = emergeAppDatosExt(emergeAppOperativos(AppBackend));
 
 new AppDatosExt().start();
