@@ -13,8 +13,9 @@ export declare function emergeAppDatosExt<T extends Constructor<AppBackend>>(Bas
         getMenu(): {
             menu: backendPlus.MenuInfoBase[];
         };
-        getTables(): string[];
+        getTables(): backendPlus.TableItemDef[];
         app: express.Express;
+        db: typeof pgPromise;
         start(): Promise<void>;
         getContext(req: Request): backendPlus.Context;
         addSchrödingerServices(mainApp: express.Express, baseUrl: string): void;
@@ -22,6 +23,6 @@ export declare function emergeAppDatosExt<T extends Constructor<AppBackend>>(Bas
         inDbClient<T>(req: Request, doThisWithDbClient: (client: pgPromise.Client) => Promise<T>): Promise<T>;
         inTransaction<T>(req: Request, doThisWithDbTransaction: (client: pgPromise.Client) => Promise<T>): Promise<T>;
         procedureDefCompleter(procedureDef: backendPlus.ProcedureDef): backendPlus.ProcedureDef;
-        tableDefAdapt(tableDef: any, context: backendPlus.Context): any;
+        tableDefAdapt(tableDef: backendPlus.TableDefinition, context: backendPlus.Context): backendPlus.TableDefinition;
     };
 } & T;

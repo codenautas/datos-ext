@@ -4,6 +4,7 @@ import {AppBackend,Request} from "backend-plus";
 import * as backendPlus from "backend-plus";
 import * as pgPromise from "pg-promise-strict";
 import * as express from "express";
+import {ProceduresDatosExt} from "./procedures-datos-ext";
 
 interface Context extends backendPlus.Context{
     puede:object
@@ -17,8 +18,6 @@ type MenuInfoMapa = {
 type MenuInfo = backendPlus.MenuInfo | MenuInfoMapa;
 type MenuDefinition = {menu:MenuInfo[]}
 
- // interface MenuDefinition MenuInfoMapa
-
 export type Constructor<T> = new(...args: any[]) => T;
 
 export function emergeAppDatosExt<T extends Constructor<AppBackend>>(Base:T){
@@ -31,7 +30,7 @@ export function emergeAppDatosExt<T extends Constructor<AppBackend>>(Base:T){
             var be = this;
             return super.getProcedures().then(function(procedures){
                 return procedures.concat(
-                    require('./procedures-datos-ext.js').map(be.procedureDefCompleter, be)
+                    ProceduresDatosExt.map(be.procedureDefCompleter, be)
                 );
             });
         }    
@@ -51,11 +50,7 @@ export function emergeAppDatosExt<T extends Constructor<AppBackend>>(Base:T){
             return menu;
         }
         getTables(){
-            return super.getTables().concat([
-                'usuarios',
-                'operativos'
-            ]);
+            return super.getTables().concat([]);
         }
     }
-
 }
