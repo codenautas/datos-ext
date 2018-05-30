@@ -18,16 +18,19 @@ function emergeAppDatosExt(Base) {
             ]);
         }
         getMenu() {
-            let menu = { menu: [
-                    { menuType: 'table', name: 'operativos' },
-                    { menuType: 'table', name: 'origenes', label: 'orígenes' },
-                    { menuType: 'table', name: 'variables' },
+            let menu = { menu: super.getMenu().menu.concat([
                     { menuType: 'proc', name: 'generar', proc: 'origenes/generar' },
-                    { menuType: 'menu', name: 'admin', menuContent: [
-                            { menuType: 'table', name: 'usuarios' },
-                        ] }
-                ] };
+                ]) };
             return menu;
+        }
+        prepareGetTables() {
+            super.prepareGetTables();
+            this.getTableDefinition = Object.assign({}, this.getTableDefinition);
+            // this.appendToTableDefinition('operativos', function(tableDef){
+            //     tableDef.detailTables.push(
+            //         {table:'origenes', fields:['operativo'], abr:'O'}
+            //     );
+            // });
         }
         getTables() {
             return super.getTables().concat([]);
