@@ -28,21 +28,30 @@ var ProceduresDatosExt = [
             if (resultV.rowCount == 0) {
                 throw new Error('La tabla no tiene variables');
             }
-            var schema_table_name = `${db.quoteIdent(resultTD.row.esquema_tablas_externas)}${db.quoteIdent(parameters.tabla_datos)}`;
-            var sql = `create table ${schema_table_name}(
-                ${resultV.rows.map(function (fieldDef) {
-                if (fieldDef.tipovar == null) {
-                    throw new Error('la variable ' + fieldDef.variable + ' no tiene tipo');
-                }
-                return db.quoteIdent(fieldDef.name) + ' ' + fieldDef.type_name;
-            }).join(',\n')}
-            )`;
-            await context.client.query(sql).execute();
-            var pks = resultV.rows.filter(fieldDef => fieldDef.es_pk).map(fieldDef => fieldDef.name);
-            if (pks.length) {
-                sql = 'alter table ${schema_table_name} add primary key (' + pks.join(',') + ');';
-                await context.client.query(sql).execute();
-                return 'Listo. Tabla creada con ' + pks.length + ' campos en la pk';
+            var primaryKey = resultV.rows.filter(fieldDef => fieldDef.es_pk).map(fieldDef => fieldDef.name);
+            var tableDef = {
+                name: resultTD.row.tabla_datos,
+                fields: resultV.rows.map(function (fieldDef) {
+                    if (fieldDef.tipovar == null) {
+                        throw new Error('la variable ' + fieldDef.variable + ' no tiene tipo');
+                    }
+                    return { name: fieldDef.name, typeName: fieldDef.type_name };
+                }),
+                primaryKey,
+                sql: {
+                    tableName: 'ext_' + resultTD.row.tabla_datos
+                },
+            };
+            var tableDefs = {};
+            tableDefs[tableDef.name] = tableDef;
+            var dump = await be.dumpDbSchemaPartial(tableDefs, {});
+            var sqls = [ /* 'do $SQL_DUMP$\n begin'*/]
+                .concat(dump.mainSql)
+                .concat(dump.enancePart)
+                .concat([ /* 'end\n$SQL_DUMP$'*/]);
+            await context.client.query(sqls.join('\n')).execute();
+            if (primaryKey.length) {
+                return 'Listo. Tabla creada con ' + primaryKey.length + ' campos en la pk';
             }
             else {
                 return 'ATENCION. Tabla creada sin pk';
