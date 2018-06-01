@@ -2,7 +2,9 @@
 
 import {Request} from "backend-plus";
 import * as backendPlus from "backend-plus";
+// tslint:disable TS6133
 import * as pgPromise from "pg-promise-strict";
+// tslint:disable-next-line:TS6133.
 import * as express from "express";
 import {ProceduresDatosExt} from "./procedures-datos-ext";
 import {AppOperativos, TableContext} from "operativos";
@@ -56,11 +58,20 @@ export function emergeAppDatosExt<T extends Constructor<InstanceType<typeof AppO
                 // variables,
                 // variables_opciones
             }
-            // this.appendToTableDefinition('operativos', function(tableDef){
-            //     tableDef.detailTables.push(
-            //         {table:'origenes', fields:['operativo'], abr:'O'}
-            //     );
-            // });
+            this.appendToTableDefinition('parametros', function(tableDef){
+                tableDef.fields.push(
+                    {name:'esquema_tablas_externas', typeName:'text', defaultValue:'ext', editable:false}
+                );
+            });
+            this.appendToTableDefinition('tabla_datos', function(tableDef){
+                console.log(tableDef)
+                tableDef.fields.push(
+                    {name:'estructura_cerrada', typeName:'boolean', editable:false}
+                );
+                tableDef.constraints.push(
+                    {consName:'estructura_cerrada true/null', constraintType:'check', expr:'estructura_cerrada is true'}
+                );
+            });
         }
     }
 }

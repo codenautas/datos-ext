@@ -18,22 +18,23 @@ function emergeAppDatosExt(Base) {
             ]);
         }
         getMenu() {
-            let menu = { menu: super.getMenu().menu.concat([
-                    { menuType: 'proc', name: 'generar', proc: 'origenes/generar' },
-                ]) };
+            let myMenuPart = [
+                { menuType: 'proc', name: 'generar', proc: 'origenes/generar' },
+            ];
+            let menu = { menu: super.getMenu().menu.concat(myMenuPart) };
             return menu;
         }
         prepareGetTables() {
             super.prepareGetTables();
             this.getTableDefinition = Object.assign({}, this.getTableDefinition);
-            // this.appendToTableDefinition('operativos', function(tableDef){
-            //     tableDef.detailTables.push(
-            //         {table:'origenes', fields:['operativo'], abr:'O'}
-            //     );
-            // });
-        }
-        getTables() {
-            return super.getTables().concat([]);
+            this.appendToTableDefinition('parametros', function (tableDef) {
+                tableDef.fields.push({ name: 'esquema_tablas_externas', typeName: 'text', defaultValue: 'ext', editable: false });
+            });
+            this.appendToTableDefinition('tabla_datos', function (tableDef) {
+                console.log(tableDef);
+                tableDef.fields.push({ name: 'estructura_cerrada', typeName: 'boolean', editable: false });
+                tableDef.constraints.push({ consName: 'estructura_cerrada true/null', constraintType: 'check', expr: 'estructura_cerrada is true' });
+            });
         }
     };
 }

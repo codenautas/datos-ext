@@ -1,5 +1,8 @@
-/// <reference types="backend-plus" />
 import { ProcedureContext } from "backend-plus";
+declare type TablaDatosGenerarParameters = {
+    operativo: string;
+    tabla_datos: string;
+};
 declare var ProceduresDatosExt: {
     action: string;
     parameters: {
@@ -7,9 +10,6 @@ declare var ProceduresDatosExt: {
         typeName: string;
         references: string;
     }[];
-    coreFunction: (context: ProcedureContext, parameters: {
-        operativo: string;
-        origen: string;
-    }) => Promise<any>;
+    coreFunction: (context: ProcedureContext, parameters: TablaDatosGenerarParameters) => Promise<string>;
 }[];
 export { ProceduresDatosExt };
