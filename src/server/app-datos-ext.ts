@@ -13,14 +13,12 @@ import {AppOperativos, TableContext} from "operativos";
 //     superuser?:true
 // }
 
-export type TableContext = TableContext;
-
 type MenuInfoMapa = {
     menuType:'mapa'
-} & backendPlus.MenuInfoBase;
+    name:string
+};
 
 type MenuInfo = backendPlus.MenuInfo | MenuInfoMapa;
-type MenuDefinition = {menu:MenuInfo[]}
 
 export type Constructor<T> = new(...args: any[]) => T;
 
@@ -43,13 +41,13 @@ export function emergeAppDatosExt<T extends Constructor<InstanceType<typeof AppO
                 {type:'js' , src:'client/datos-ext.js'},
             ])
         }
-        getMenu():{menu:backendPlus.MenuInfoBase[]}{
-            let menu:MenuDefinition = {menu: super.getMenu().menu.concat([
-                {menuType:'proc'   , name:'generar'    , proc:'origenes/generar'       },
-            ])}
+        getMenu():backendPlus.MenuDefinition{
+            let myMenuPart:MenuInfo[]=[
+                {menuType:'proc', name:'generar', proc:'origenes/generar'},
+            ];
+            let menu = {menu: super.getMenu().menu.concat(myMenuPart)}
             return menu;
         }
-
         prepareGetTables(){
             super.prepareGetTables();
             this.getTableDefinition={
@@ -58,15 +56,12 @@ export function emergeAppDatosExt<T extends Constructor<InstanceType<typeof AppO
                 // variables,
                 // variables_opciones
             }
+            this.appendToTableDefinition('operativos', function(tableDef){})
             // this.appendToTableDefinition('operativos', function(tableDef){
             //     tableDef.detailTables.push(
             //         {table:'origenes', fields:['operativo'], abr:'O'}
             //     );
             // });
-        }
-
-        getTables(){
-            return super.getTables().concat([]);
         }
     }
 }
