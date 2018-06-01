@@ -56,7 +56,6 @@ export function emergeAppDatosExt<T extends Constructor<InstanceType<typeof AppO
                 // variables,
                 // variables_opciones
             }
-            this.appendToTableDefinition('operativos', function(tableDef){})
             // this.appendToTableDefinition('operativos', function(tableDef){
             //     tableDef.detailTables.push(
             //         {table:'origenes', fields:['operativo'], abr:'O'}
