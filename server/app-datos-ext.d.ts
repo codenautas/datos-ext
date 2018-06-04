@@ -24,11 +24,19 @@ export declare function emergeAppDatosExt<T extends Constructor<InstanceType<typ
         procedureDefCompleter: (procedureDef: backendPlus.ProcedureDef) => backendPlus.ProcedureDef;
         tableDefAdapt: (tableDef: backendPlus.TableDefinition, context: backendPlus.Context) => backendPlus.TableDefinition;
         pushApp: (dirname: string) => void;
-        dumpDbSchemaPartial(partialTableStructures: {
+        dumpDbSchemaPartial: ((partialTableStructures: {
             [k: string]: backendPlus.TableDefinition;
         }, opts?: {
             complete?: boolean;
             skipEnance?: boolean;
-        }): any;
+        }) => Promise<any>) & ((partialTableStructures: {
+            [k: string]: backendPlus.TableDefinition;
+        }, opts?: {
+            complete?: boolean;
+            skipEnance?: boolean;
+        }) => Promise<{
+            mainSql: string;
+            enancePart: String;
+        }>);
     };
 } & T;

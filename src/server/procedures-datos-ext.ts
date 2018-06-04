@@ -9,7 +9,7 @@ type TablaDatosGenerarParameters={
 }
 
 var ProceduresDatosExt = [
-    {   
+    {
         action:'tabla_datos/generar',
         parameters:[
             {name:'operativo'  , typeName:'text', references:'operativos' },

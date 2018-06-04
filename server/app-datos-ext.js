@@ -19,7 +19,7 @@ function emergeAppDatosExt(Base) {
         }
         getMenu() {
             let myMenuPart = [
-                { menuType: 'proc', name: 'generar', proc: 'origenes/generar' },
+                { menuType: 'proc', name: 'generar', proc: 'tabla_datos/generar' },
             ];
             let menu = { menu: super.getMenu().menu.concat(myMenuPart) };
             return menu;
