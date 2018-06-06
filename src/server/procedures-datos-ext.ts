@@ -17,7 +17,6 @@ var ProceduresDatosExt = [
         ],
         coreFunction:async function(context:ProcedureContext, parameters:TablaDatosGenerarParameters){
             var be=context.be;
-            var db=be.db;
             let resultTD = await context.client.query(
                 `select *
                    from tabla_datos, parametros

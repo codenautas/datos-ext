@@ -9,7 +9,6 @@ var ProceduresDatosExt = [
         ],
         coreFunction: async function (context, parameters) {
             var be = context.be;
-            var db = be.db;
             let resultTD = await context.client.query(`select *
                    from tabla_datos, parametros
                    where operativo = $1 and tabla_datos = $2

@@ -1,7 +1,5 @@
 "use strict";
 
-// import {Request} from "backend-plus";
-// import * as backendPlus from "backend-plus";
 import {ProceduresDatosExt} from "./procedures-datos-ext";
 import * as operativos from "operativos";
 import {AppOperativos} from "operativos";
