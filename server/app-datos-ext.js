@@ -1,6 +1,11 @@
 "use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
 Object.defineProperty(exports, "__esModule", { value: true });
 const procedures_datos_ext_1 = require("./procedures-datos-ext");
+const operativos = require("operativos");
+__export(require("operativos"));
 function emergeAppDatosExt(Base) {
     return class AppDatosExt extends Base {
         constructor(...args) {
@@ -39,4 +44,5 @@ function emergeAppDatosExt(Base) {
     };
 }
 exports.emergeAppDatosExt = emergeAppDatosExt;
+exports.AppDatosExt = emergeAppDatosExt(operativos.emergeAppOperativos(operativos.AppBackend));
 //# sourceMappingURL=app-datos-ext.js.map

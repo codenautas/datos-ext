@@ -4,13 +4,7 @@ import {ProceduresDatosExt} from "./procedures-datos-ext";
 import * as operativos from "operativos";
 import {AppOperativos} from "operativos";
 
-//Imports que no deberián estar, los agregamos porque sino tira error
-import {TableContext} from "operativos";
-// tslint:disable TS6133
-import * as pgPromise from "pg-promise-strict";
-// tslint:disable-next-line:TS6133.
-import * as express from "express";
-
+export * from "operativos";
 
 export type Constructor<T> = new(...args: any[]) => T;
 
@@ -64,3 +58,6 @@ export function emergeAppDatosExt<T extends Constructor<InstanceType<typeof AppO
         }
     }
 }
+
+export var AppDatosExt = emergeAppDatosExt(operativos.emergeAppOperativos(operativos.AppBackend));
+export type AppDatosExtType = typeof AppDatosExt;
