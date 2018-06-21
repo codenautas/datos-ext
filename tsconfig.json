@@ -6,6 +6,7 @@
         "moduleResolution": "node",
         "lib":["es2015", "dom"],
         "target": "es5",
+        //"skipLibCheck": true,
         "module": "umd",
         "typeRoots" : ["node_modules/@types"],
         "noImplicitAny": true,
@@ -16,6 +17,6 @@
         "noFallthroughCasesInSwitch": true
     },
     "include":[
-        "src"
+        "src/**/*"
     ]
 }
