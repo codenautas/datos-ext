@@ -22,7 +22,7 @@ export declare function emergeAppDatosExt<T extends Constructor<InstanceType<typ
         tableStructures: operativos.TableDefinitions;
         db: typeof import("pg-promise-strict");
         config: any;
-        start: () => Promise<void>;
+        start: (opts?: operativos.StartOptions) => Promise<void>;
         getContext: (req: operativos.Request) => operativos.Context;
         addSchrödingerServices: (mainApp: operativos.ExpressPlus, baseUrl: string) => void;
         addLoggedServices: () => void;
@@ -40,6 +40,7 @@ export declare function emergeAppDatosExt<T extends Constructor<InstanceType<typ
         }>;
         getContextForDump: () => operativos.ContextForDump;
         getClientSetupForSendToFrontEnd: (req: operativos.Request) => operativos.ClientSetup;
+        configList: () => (string | object)[];
     };
 } & T;
 export declare var AppDatosExt: {
@@ -61,7 +62,7 @@ export declare var AppDatosExt: {
         tableStructures: operativos.TableDefinitions;
         db: typeof import("pg-promise-strict");
         config: any;
-        start: () => Promise<void>;
+        start: (opts?: operativos.StartOptions) => Promise<void>;
         getContext: (req: operativos.Request) => operativos.Context;
         addSchrödingerServices: (mainApp: operativos.ExpressPlus, baseUrl: string) => void;
         addLoggedServices: () => void;
@@ -79,6 +80,7 @@ export declare var AppDatosExt: {
         }>;
         getContextForDump: () => operativos.ContextForDump;
         getClientSetupForSendToFrontEnd: (req: operativos.Request) => operativos.ClientSetup;
+        configList: () => (string | object)[];
     };
 } & (new (...args: any[]) => {
     getTableDefinition: operativos.TableDefinitionsGetters;
@@ -96,7 +98,7 @@ export declare var AppDatosExt: {
     tableStructures: operativos.TableDefinitions;
     db: typeof import("pg-promise-strict");
     config: any;
-    start(): Promise<void>;
+    start(opts?: operativos.StartOptions): Promise<void>;
     getContext(req: operativos.Request): operativos.Context;
     addSchrödingerServices(mainApp: operativos.ExpressPlus, baseUrl: string): void;
     addLoggedServices(): void;
@@ -114,4 +116,5 @@ export declare var AppDatosExt: {
     }>;
     getContextForDump(): operativos.ContextForDump;
     getClientSetupForSendToFrontEnd(req: operativos.Request): operativos.ClientSetup;
+    configList(): (string | object)[];
 }) & typeof operativos.AppBackend;
