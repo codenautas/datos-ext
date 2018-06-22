@@ -115,4 +115,3 @@ export declare var AppDatosExt: {
     getContextForDump(): operativos.ContextForDump;
     getClientSetupForSendToFrontEnd(req: operativos.Request): operativos.ClientSetup;
 }) & typeof operativos.AppBackend;
-export declare type AppDatosExtType = typeof AppDatosExt;

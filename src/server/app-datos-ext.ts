@@ -60,4 +60,3 @@ export function emergeAppDatosExt<T extends Constructor<InstanceType<typeof AppO
 }
 
 export var AppDatosExt = emergeAppDatosExt(operativos.emergeAppOperativos(operativos.AppBackend));
-export type AppDatosExtType = typeof AppDatosExt;
