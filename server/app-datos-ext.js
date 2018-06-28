@@ -24,7 +24,7 @@ function emergeAppDatosExt(Base) {
         }
         getMenu() {
             let myMenuPart = [
-                { menuType: 'proc', name: 'generar', proc: 'tabla_datos/generar' },
+                { menuType: 'proc', name: 'generar_tabla_datos', label: 'Generar Tabla de Datos', proc: 'tabla_datos/generar' },
             ];
             let menu = { menu: super.getMenu().menu.concat(myMenuPart) };
             return menu;
@@ -38,7 +38,7 @@ function emergeAppDatosExt(Base) {
             this.appendToTableDefinition('tabla_datos', function (tableDef) {
                 console.log(tableDef);
                 tableDef.fields.push({ name: 'estructura_cerrada', typeName: 'boolean', editable: false });
-                tableDef.constraints.push({ consName: 'estructura_cerrada true/null', constraintType: 'check', expr: 'estructura_cerrada is true' });
+                tableDef.constraints.push({ consName: 'estructura_cerrada true/null', constraintType: 'check', expr: 'estructura_cerrada = true' });
             });
         }
     };

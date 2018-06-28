@@ -1,7 +1,6 @@
 "use strict";
 
-import * as backendPlus from "backend-plus";
-import {ProcedureContext} from "backend-plus";
+import {ProcedureContext, TableDefinition, PgKnownTypes, Context, TableDefinitions} from "operativos";
 
 type TablaDatosGenerarParameters={
     operativo: string
@@ -44,24 +43,30 @@ var ProceduresDatosExt = [
             if(resultV.rowCount==0){
                 throw new Error('La tabla no tiene variables');
             }
-            var primaryKey=resultV.rows.filter(fieldDef=>fieldDef.es_pk).map(fieldDef=>fieldDef.name);
-            var tableDef:backendPlus.TableDefinition={
-                name:resultTD.row.tabla_datos,
-                fields:resultV.rows.map(function(fieldDef:{variable:string, tipovar:string, name:string, type_name:backendPlus.PgKnownTypes}){
+            var primaryKey=resultV.rows.filter(fieldDef=>fieldDef.es_pk).map(fieldDef=>fieldDef.variable);
+            var tableDef:TableDefinition={
+                name: resultTD.row.tabla_datos,
+                fields:resultV.rows.map(function(fieldDef:{variable:string, tipovar:string, type_name:PgKnownTypes}){
                     if(fieldDef.tipovar==null){
                         throw new Error('la variable '+fieldDef.variable+' no tiene tipo');
                     }
-                    return {name: fieldDef.name, typeName:fieldDef.type_name}
+                    return {name: fieldDef.variable, typeName:fieldDef.type_name}
                 }),
+                editable: context.user.rol === 'admin',
                 primaryKey,
                 sql:{
-                    tableName:'ext_'+resultTD.row.tabla_datos
+                    tableName: resultTD.row.tabla_datos,
+                    isTable: true,
+                    isReferable: true,
+                    skipEnance: true
                 },
             };
-            var tableDefs:{
-                [k:string]:backendPlus.TableDefinition
-            }={};
-            tableDefs[tableDef.name]=tableDef;
+            var tableDefs:TableDefinitions={};
+
+            be.tableStructures[tableDef.name] = tableDefs[tableDef.name] = function (context: Context):TableDefinition {
+                return context.be.tableDefAdapt(tableDef, context);
+            };
+
             var dump = await be.dumpDbSchemaPartial(tableDefs, {});
             var sqls = [/* 'do $SQL_DUMP$\n begin'*/ ]
             .concat(dump.mainSql)

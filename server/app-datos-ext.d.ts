@@ -1,4 +1,4 @@
-/// <reference path="../node_modules/pg-promise-strict/pg-promise-strict.d.ts" />
+/// <reference path="../../backend-plus/node_modules/pg-promise-strict/pg-promise-strict.d.ts" />
 import * as operativos from "operativos";
 import { AppOperativos } from "operativos";
 export * from "operativos";
