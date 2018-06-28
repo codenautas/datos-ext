@@ -29,7 +29,7 @@ export function emergeAppDatosExt<T extends Constructor<InstanceType<typeof AppO
         }
         getMenu():operativos.MenuDefinition{
             let myMenuPart:operativos.MenuInfo[]=[
-                {menuType:'proc', name:'generar', proc:'tabla_datos/generar'},
+                {menuType:'proc', name:'generar_tabla_datos', label:'Generar Tabla de Datos Externa', proc:'tabla_datos/generar'},
             ];
             let menu = {menu: super.getMenu().menu.concat(myMenuPart)}
             return menu;
@@ -52,7 +52,7 @@ export function emergeAppDatosExt<T extends Constructor<InstanceType<typeof AppO
                     {name:'estructura_cerrada', typeName:'boolean', editable:false}
                 );
                 tableDef.constraints.push(
-                    {consName:'estructura_cerrada true/null', constraintType:'check', expr:'estructura_cerrada is true'}
+                    {consName:'estructura_cerrada true/null', constraintType:'check', expr:'estructura_cerrada = true'}
                 );
             });
         }
