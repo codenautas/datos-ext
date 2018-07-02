@@ -30,6 +30,7 @@ export function emergeAppDatosExt<T extends Constructor<InstanceType<typeof AppO
         getMenu():operativos.MenuDefinition{
             let myMenuPart:operativos.MenuInfo[]=[
                 {menuType:'proc', name:'generar_tabla_datos', label:'Generar Tabla de Datos Externa', proc:'tabla_datos/generar'},
+                {menuType:'proc', name:'cargar_generados', label:'Cargar Generados', proc:'tabla_datos/cargar_generados'},
             ];
             let menu = {menu: super.getMenu().menu.concat(myMenuPart)}
             return menu;
