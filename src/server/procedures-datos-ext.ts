@@ -18,7 +18,7 @@ function genTableDef(variables: VariableWitType[], tablaDatos: string, context: 
             }
             return { name: v.variable, typeName: v.type_name };
         }),
-        editable: context.user.rol === 'admin',
+        editable: true,
         primaryKey: variables.filter(v => v.es_pk).map(fieldDef => fieldDef.variable),
         sql: {
             tableName: tablaDatos,
@@ -34,19 +34,17 @@ var ProceduresDatosExt = [
     {
         action:'tabla_datos/cargar_generados',
         parameters:[
-            {name:'operativo'  , typeName:'text', references:'operativos' },
         ],
         coreFunction:async function(context:ProcedureContext, parameters:{operativo:string}){
             var be=context.be;
             let resultTD = await context.client.query(
                 `select *
                    from tabla_datos, parametros
-                   where operativo = $1 and tabla_datos.estructura_cerrada = TRUE
-                `,
-                [parameters.operativo]
+                   where tabla_datos.estructura_cerrada = TRUE
+                `
             ).fetchAll();
             await Promise.all(
-                resultTD.rows.map(row => be.procedure['tabla_datos/generar_tabledef'].coreFunction(context, {operativo: parameters.operativo, tabla_datos:row.tabla_datos }) as Promise<TableDefinition>)
+                resultTD.rows.map(row => be.procedure['tabla_datos/generar_tabledef'].coreFunction(context, {operativo: row.operativo, tabla_datos:row.tabla_datos }) as Promise<TableDefinition>)
             ).then(tdefs => {
                 tdefs.forEach(tdef => be.tableStructures[tdef.name] = (context: Context):TableDefinition => context.be.tableDefAdapt(tdef, context));
             });

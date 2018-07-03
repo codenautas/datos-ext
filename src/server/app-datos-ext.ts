@@ -14,6 +14,14 @@ export function emergeAppDatosExt<T extends Constructor<InstanceType<typeof AppO
         constructor(...args:any[]){ 
             super(...args);
         }
+        async postConfig(){
+            var be=this;
+            await super.postConfig();
+            var context = be.getContext();
+            await be.db.inTransaction(async function(client:pg.Client){
+                await be.tablasDatosCargarTodas(client);
+            });
+        }
         getProcedures(){
             var be = this;
             return super.getProcedures().then(function(procedures){
