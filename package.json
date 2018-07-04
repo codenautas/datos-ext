@@ -21,7 +21,8 @@
     "node": ">= 8.0.0"
   },
   "scripts": {
-    "prepublish": "(tsc -p tsconfig-client.json || echo \"continue w/error\") && (tsc -p tsconfig-server.json  || echo \"continue w/error\")",
+    "prepublish": "npm run build",
+    "build": "(tsc -p tsconfig-client.json || echo \"continue w/error\") && (tsc -p tsconfig-server.json  || echo \"continue w/error\")",
     "start": "node server/server-datos-ext.js"
   },
   "qa-control": {
