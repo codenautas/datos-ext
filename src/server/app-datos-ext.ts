@@ -14,14 +14,6 @@ export function emergeAppDatosExt<T extends Constructor<InstanceType<typeof AppO
         constructor(...args:any[]){ 
             super(...args);
         }
-        async postConfig(){
-            var be=this;
-            await super.postConfig();
-            var context = be.getContext();
-            await be.db.inTransaction(async function(client:pg.Client){
-                await be.tablasDatosCargarTodas(client);
-            });
-        }
         getProcedures(){
             var be = this;
             return super.getProcedures().then(function(procedures){
@@ -37,8 +29,7 @@ export function emergeAppDatosExt<T extends Constructor<InstanceType<typeof AppO
         }
         getMenu():operativos.MenuDefinition{
             let myMenuPart:operativos.MenuInfo[]=[
-                {menuType:'proc', name:'generar_tabla_datos', label:'Generar Tabla de Datos Externa', proc:'tabla_datos/generar'},
-                {menuType:'proc', name:'cargar_generados', label:'Cargar Generados', proc:'tabla_datos/cargar_generados'},
+                {menuType:'proc', name:'generar_tabla_datos', label:'generar tabla de datos externa', proc:'tabla_datos/generar'}
             ];
             let menu = {menu: super.getMenu().menu.concat(myMenuPart)}
             return menu;
