@@ -14,7 +14,6 @@
   ],
   "repository": "codenautas/datos-ext",
   "dependencies": {
-    "pg-triggers": "~0.2.1",
     "operativos": "~0.1.19"
   },
   "engines": {

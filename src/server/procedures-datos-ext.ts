@@ -1,6 +1,6 @@
 "use strict";
 
-import {ProcedureContext, TableDefinition, TableDefinitions, TablaDatos, generateAndLoadTableDef} from "operativos";
+import {ProcedureContext, TableDefinition, TableDefinitions, TablaDatos, generateBaseTableDef, loadTableDef} from "operativos";
 
 type TablaDatosGenerarParameters={
     operativo: string
@@ -26,9 +26,10 @@ var ProceduresDatosExt = [
             if(resultTD.row.estructura_cerrada){
                 throw new Error('La tabla ya estaba generada');
             }
-            var tableDef:TableDefinition = await generateAndLoadTableDef(context.client, be, parameters as TablaDatos); 
+            // var tableDef:TableDefinition = await generateAndLoadTableDef(context.client, be, parameters as TablaDatos); 
+            var tableDef:TableDefinition = await generateBaseTableDef(context.client, parameters as TablaDatos); 
             var tableDefs: TableDefinitions = {};
-            tableDefs[tableDef.name] = be.tableStructures[tableDef.name] // assign tableDef function
+            tableDefs[tableDef.name] = loadTableDef(tableDef, be);
             var dump = await be.dumpDbSchemaPartial(tableDefs, {});
             var sqls = [/* 'do $SQL_DUMP$\n begin'*/ ]
             .concat(dump.mainSql)
