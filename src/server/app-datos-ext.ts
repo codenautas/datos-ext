@@ -2,13 +2,12 @@
 
 import {ProceduresDatosExt} from "./procedures-datos-ext";
 import * as operativos from "operativos";
-import {AppOperativos} from "operativos";
 
 export * from "operativos";
 
 export type Constructor<T> = new(...args: any[]) => T;
 
-export function emergeAppDatosExt<T extends Constructor<InstanceType<typeof AppOperativos>>>(Base:T){
+export function emergeAppDatosExt<T extends Constructor<operativos.AppOperativosType>>(Base:T){
     
     return class AppDatosExt extends Base{
         constructor(...args:any[]){ 
@@ -60,3 +59,4 @@ export function emergeAppDatosExt<T extends Constructor<InstanceType<typeof AppO
 }
 
 export var AppDatosExt = emergeAppDatosExt(operativos.emergeAppOperativos(operativos.AppBackend));
+export type AppDatosExtType = InstanceType<typeof AppDatosExt>;

@@ -1,6 +1,6 @@
 "use strict";
 
-import {ProcedureContext, TableDefinition, TableDefinitions, TablaDatos, generateBaseTableDef, loadTableDef} from "operativos";
+import {ProcedureContext, TableDefinition, TableDefinitions, TablaDatos, AppOperativosType} from "operativos";
 
 type TablaDatosGenerarParameters={
     operativo: string
@@ -15,7 +15,7 @@ var ProceduresDatosExt = [
             {name:'tabla_datos', typeName:'text', references:'tabla_datos'}
         ],
         coreFunction:async function(context:ProcedureContext, parameters:TablaDatosGenerarParameters){
-            var be = context.be;
+            var be = context.be as AppOperativosType;
             let resultTD = await context.client.query(
                 `select *
                    from tabla_datos, parametros
@@ -26,10 +26,9 @@ var ProceduresDatosExt = [
             if(resultTD.row.estructura_cerrada){
                 throw new Error('La tabla ya estaba generada');
             }
-            // var tableDef:TableDefinition = await generateAndLoadTableDef(context.client, be, parameters as TablaDatos); 
-            var tableDef:TableDefinition = await generateBaseTableDef(context.client, parameters as TablaDatos); 
+            var tableDef:TableDefinition = await be.generateBaseTableDef(context.client, resultTD.row as TablaDatos); 
             var tableDefs: TableDefinitions = {};
-            tableDefs[tableDef.name] = loadTableDef(tableDef, be);
+            tableDefs[tableDef.name] = be.loadTableDef(tableDef);
             var dump = await be.dumpDbSchemaPartial(tableDefs, {});
             var sqls = [/* 'do $SQL_DUMP$\n begin'*/ ]
             .concat(dump.mainSql)
