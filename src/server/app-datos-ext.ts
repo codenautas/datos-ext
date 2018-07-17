@@ -1,9 +1,13 @@
 "use strict";
 
-import {ProceduresDatosExt} from "./procedures-datos-ext";
+import {procedures} from "./procedures-datos-ext";
 import * as operativos from "operativos";
+import { TablaDatos, sufijoTablaDato } from "operativos";
+import { Client } from "pg-promise-strict";
 
 export * from "operativos";
+
+export const sufijo_tabla_externa:string='_ext';
 
 export type Constructor<T> = new(...args: any[]) => T;
 
@@ -12,20 +16,10 @@ export function emergeAppDatosExt<T extends Constructor<operativos.AppOperativos
     return class AppDatosExt extends Base{
         constructor(...args:any[]){ 
             super(...args);
+            this.myProcedures = this.myProcedures.concat(procedures);
+            this.myClientFileName = 'datos-ext';
         }
-        getProcedures(){
-            var be = this;
-            return super.getProcedures().then(function(procedures){
-                return procedures.concat(
-                    ProceduresDatosExt.map(be.procedureDefCompleter, be)
-                );
-            });
-        }    
-        clientIncludes(req:operativos.Request, hideBEPlusInclusions:boolean){
-            return super.clientIncludes(req, hideBEPlusInclusions).concat([
-                {type:'js' , src:'client/datos-ext.js'},
-            ])
-        }
+
         getMenu():operativos.MenuDefinition{
             let myMenuPart:operativos.MenuInfo[]=[
                 {menuType:'proc', name:'generar_tabla_datos', label:'generar tabla de datos externa', proc:'tabla_datos/generar'}
@@ -33,6 +27,16 @@ export function emergeAppDatosExt<T extends Constructor<operativos.AppOperativos
             let menu = {menu: super.getMenu().menu.concat(myMenuPart)}
             return menu;
         }
+
+        async generateBaseTableDef(client: Client, tablaDatos:TablaDatos){
+            let td = await super.generateBaseTableDef(client, tablaDatos);
+            //TODO: dejar de preguntar por el postfix agregar un campo "esCalculada, esExterna o origen" a tablaDatos 
+            if (tablaDatos.sufijo == sufijoTablaDato.externa){
+                td.allow = {...td.allow, deleteAll: true, import: true}
+            }
+            return td
+        }
+
         prepareGetTables(){
             super.prepareGetTables();
             this.getTableDefinition={

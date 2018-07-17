@@ -1,13 +1,14 @@
 "use strict";
 
-import {ProcedureContext, TableDefinition, TableDefinitions, TablaDatos, AppOperativosType} from "operativos";
+import {ProcedureContext, TableDefinition, TableDefinitions, TablaDatos} from "operativos";
+import { AppDatosExtType } from "./app-datos-ext";
 
 type TablaDatosGenerarParameters={
     operativo: string
     tabla_datos: string
 }
 
-var ProceduresDatosExt = [
+var procedures = [
     {
         action:'tabla_datos/generar',
         parameters:[
@@ -15,7 +16,7 @@ var ProceduresDatosExt = [
             {name:'tabla_datos', typeName:'text', references:'tabla_datos'}
         ],
         coreFunction:async function(context:ProcedureContext, parameters:TablaDatosGenerarParameters){
-            var be = context.be as AppOperativosType;
+            var be = context.be as AppDatosExtType;
             let resultTD = await context.client.query(
                 `select *
                    from tabla_datos, parametros
@@ -53,4 +54,4 @@ var ProceduresDatosExt = [
     },   
 ];
 
-export {ProceduresDatosExt};
+export {procedures};
