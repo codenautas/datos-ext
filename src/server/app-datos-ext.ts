@@ -2,12 +2,10 @@
 
 import {procedures} from "./procedures-datos-ext";
 import * as operativos from "operativos";
-import { TablaDatos, sufijoTablaDato } from "operativos";
+import { TablaDatos, tiposTablaDato } from "operativos";
 import { Client } from "pg-promise-strict";
 
 export * from "operativos";
-
-export const sufijo_tabla_externa:string='_ext';
 
 export type Constructor<T> = new(...args: any[]) => T;
 
@@ -31,7 +29,7 @@ export function emergeAppDatosExt<T extends Constructor<operativos.AppOperativos
         async generateBaseTableDef(client: Client, tablaDatos:TablaDatos){
             let td = await super.generateBaseTableDef(client, tablaDatos);
             //TODO: dejar de preguntar por el postfix agregar un campo "esCalculada, esExterna o origen" a tablaDatos 
-            if (tablaDatos.sufijo == sufijoTablaDato.externa){
+            if (tablaDatos.tipo == tiposTablaDato.externa){
                 td.allow = {...td.allow, deleteAll: true, import: true}
             }
             return td

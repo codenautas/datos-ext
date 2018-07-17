@@ -1,6 +1,6 @@
 "use strict";
 
-import {ProcedureContext, TableDefinition, TableDefinitions, TablaDatos} from "operativos";
+import {ProcedureContext, TableDefinition, TableDefinitions, TablaDatos, tiposTablaDato} from "operativos";
 import { AppDatosExtType } from "./app-datos-ext";
 
 type TablaDatosGenerarParameters={
@@ -20,9 +20,9 @@ var procedures = [
             let resultTD = await context.client.query(
                 `select *
                    from tabla_datos, parametros
-                   where operativo = $1 and tabla_datos = $2
+                   where operativo = $1 and tabla_datos = $2 and tipo = $3
                 `,
-                [parameters.operativo, parameters.tabla_datos]
+                [parameters.operativo, parameters.tabla_datos, tiposTablaDato.externa]
             ).fetchUniqueRow();
             if(resultTD.row.estructura_cerrada){
                 throw new Error('La tabla ya estaba generada');
@@ -40,9 +40,9 @@ var procedures = [
             await context.client.query(
                 `update tabla_datos
                 set estructura_cerrada = true
-                where operativo = $1 and tabla_datos = $2
+                where operativo = $1 and tabla_datos = $2 and tipo = $3
                 `,
-                [parameters.operativo, parameters.tabla_datos]
+                [parameters.operativo, parameters.tabla_datos, tiposTablaDato.externa]
             ).execute();
 
             if(tableDef.primaryKey.length){
