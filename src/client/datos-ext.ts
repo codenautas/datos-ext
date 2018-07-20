@@ -1,11 +1,11 @@
 "use strict";
 
-/*
-var my = myOwn;
+import {html} from "js-to-html";
+import * as myOwn from "myOwn";
 
-function botonClientSideEnGrilla(opts){
+function botonClientSideEnGrilla(opts: {nombreBoton: string, llamada: (depot:myOwn.Depot)=> Promise<any>}){
     return {
-        prepare: function (depot, fieldName) {
+        prepare: function (depot:myOwn.Depot, fieldName: string) {
             var td = depot.rowControls[fieldName];
             var boton = html.button(opts.nombreBoton).create();
             td.buttonGenerar = boton;
@@ -39,17 +39,22 @@ function botonClientSideEnGrilla(opts){
         }
     };
 }
-
-
-
-my.clientSides.generarPanel = botonClientSideEnGrilla({
+myOwn.clientSides.generarTD = botonClientSideEnGrilla({
     nombreBoton:'generar',
-    llamada:function(depot){
-        return my.ajax.tabla_datos.generar({
+    llamada:function(depot: myOwn.Depot){
+        return myOwn.ajax.tabla_datos.generar({
             operativo: depot.row.operativo,
             tabla_datos  : depot.row.tabla_datos
         });
     }
 });
 
-*/
+
+// myOwn.clientSides.generarTD = {
+//     prepare:function(depot:myOwn.Depot, fieldName:string):void{
+//         let td=depot.rowControls[fieldName];
+//         let fileName=depot.row.nombre+'.'+depot.row.ext;
+//         let bajar = html.a({href:'file?id_adjunto='+depot.row.id_adjunto, download:fileName},"bajar").create();
+//         td.appendChild(bajar);
+//     }
+// }
