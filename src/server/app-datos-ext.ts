@@ -1,6 +1,6 @@
 "use strict";
 
-import {procedures} from "./procedures-datos-ext";
+import { procedures } from "./procedures-datos-ext";
 import * as operativos from "operativos";
 import { TablaDatos, tiposTablaDato } from "operativos";
 import { Client } from "pg-promise-strict";
@@ -12,19 +12,20 @@ export type Constructor<T> = new(...args: any[]) => T;
 export function emergeAppDatosExt<T extends Constructor<operativos.AppOperativosType>>(Base:T){
     
     return class AppDatosExt extends Base{
+        myProcedures: operativos.ProcedureDef[] = procedures;
+        myClientFileName: string = 'datos-ext';
         constructor(...args:any[]){ 
-            super(...args);
-            this.myProcedures = this.myProcedures.concat(procedures);
-            this.myClientFileName = 'datos-ext';
+            super(args);
+            this.initialize();
         }
 
-        getMenu():operativos.MenuDefinition{
-            let myMenuPart:operativos.MenuInfo[]=[
-                {menuType:'proc', name:'generar_tabla_datos', label:'generar tabla de datos externa', proc:'tabla_datos/generar'}
-            ];
-            let menu = {menu: super.getMenu().menu.concat(myMenuPart)}
-            return menu;
-        }
+        // getMenu():operativos.MenuDefinition{
+        //     let myMenuPart:operativos.MenuInfo[]=[
+        //         {menuType:'proc', name:'generar_tabla_datos', label:'generar tabla de datos externa', proc:'tabla_datos/generar'}
+        //     ];
+        //     let menu = {menu: super.getMenu().menu.concat(myMenuPart)}
+        //     return menu;
+        // }
 
         async generateBaseTableDef(client: Client, tablaDatos:TablaDatos){
             let td = await super.generateBaseTableDef(client, tablaDatos);
