@@ -1,12 +1,12 @@
 "use strict";
 
 import {html} from "js-to-html";
-// TODO: esto debería ir en datos-ext
 import * as myOwn from "myOwn";
 
 function botonClientSideEnGrilla(opts: {nombreBoton: string, llamada: (depot:myOwn.Depot)=> Promise<any>}){
     return {
         prepare: function (depot:myOwn.Depot, fieldName: string) {
+            //TODO sacar hardcode "externa" (requiere importar operativos en cliente)
             if (depot.row.tipo == 'externa'){
                 var td = depot.rowControls[fieldName];
                 var boton = html.button(opts.nombreBoton).create();
