@@ -7,7 +7,7 @@ function botonClientSideEnGrilla(opts: {nombreBoton: string, llamada: (depot:myO
     return {
         prepare: function (depot:myOwn.Depot, fieldName: string) {
             //TODO sacar hardcode "externa" (requiere importar operativos en cliente)
-            if (depot.row.tipo == 'externa'){
+            if (depot.row.tipo == 'externa' && !depot.row.estructura_cerrada){
                 var td = depot.rowControls[fieldName];
                 var boton = html.button(opts.nombreBoton).create();
                 td.innerHTML = "";
