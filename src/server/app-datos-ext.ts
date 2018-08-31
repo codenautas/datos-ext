@@ -19,14 +19,6 @@ export function emergeAppDatosExt<T extends Constructor<operativos.AppOperativos
             this.initialize();
         }
 
-        // getMenu():operativos.MenuDefinition{
-        //     let myMenuPart:operativos.MenuInfo[]=[
-        //         {menuType:'proc', name:'generar_tabla_datos', label:'generar tabla de datos externa', proc:'tabla_datos/generar'}
-        //     ];
-        //     let menu = {menu: super.getMenu().menu.concat(myMenuPart)}
-        //     return menu;
-        // }
-
         async generateBaseTableDef(client: Client, tablaDatos:TablaDatos){
             let td = await super.generateBaseTableDef(client, tablaDatos);
             //TODO: dejar de preguntar por el postfix agregar un campo "esCalculada, esExterna o origen" a tablaDatos 
@@ -49,7 +41,6 @@ export function emergeAppDatosExt<T extends Constructor<operativos.AppOperativos
                 );
             });
             this.appendToTableDefinition('tabla_datos', function(tableDef){
-                console.log(tableDef)
                 tableDef.fields.push(
                     {name:'estructura_cerrada', typeName:'boolean', editable:false}
                 );
