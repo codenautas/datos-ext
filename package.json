@@ -1,7 +1,7 @@
 {
   "name": "datos-ext",
   "description": "App de administración de datos externos",
-  "version": "0.1.19",
+  "version": "0.1.20",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "main": "server/app-datos-ext.js",
@@ -14,7 +14,7 @@
   ],
   "repository": "codenautas/datos-ext",
   "dependencies": {
-    "operativos": "~0.1.30"
+    "operativos": "~0.1.31"
   },
   "devDependencies": {
     "types.d.ts": "~0.1.32"
