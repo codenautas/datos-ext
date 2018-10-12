@@ -20,12 +20,12 @@ export function emergeAppDatosExt<T extends Constructor<operativos.AppOperativos
         }
 
         async generateBaseTableDef(client: Client, tablaDatos:TablaDatos){
-            let td = await super.generateBaseTableDef(client, tablaDatos);
+            let tDef = await super.generateBaseTableDef(client, tablaDatos);
             //TODO: dejar de preguntar por el postfix agregar un campo "esCalculada, esExterna o origen" a tablaDatos 
             if (tablaDatos.tipo == tiposTablaDato.externa){
-                td.allow = {...td.allow, deleteAll: true, import: true}
+                tDef.allow = {...tDef.allow, deleteAll: true, import: true}
             }
-            return td
+            return tDef
         }
 
         prepareGetTables(){
@@ -53,4 +53,4 @@ export function emergeAppDatosExt<T extends Constructor<operativos.AppOperativos
 }
 
 export var AppDatosExt = emergeAppDatosExt(operativos.emergeAppOperativos(operativos.AppBackend));
-export type AppDatosExtType = InstanceType<typeof AppDatosExt>;
+
