@@ -1,6 +1,7 @@
 "use strict";
 
 import { AppDatosExtType, ProcedureContext, TableDefinition, TableDefinitions, TablaDatoExterna} from './types-datos-ext'
+import { TablaDatos } from 'operativos';
 
 type TablaDatosGenerarParameters={
     operativo: string
@@ -16,12 +17,12 @@ var procedures = [
         ],
         coreFunction:async function(context:ProcedureContext, parameters:TablaDatosGenerarParameters){
             var be = context.be as AppDatosExtType;
-            let tablaDatos = <TablaDatoExterna> await be.getTablaDatos(context.client, parameters.operativo, parameters.tabla_datos)
+            let tablaDatos = <TablaDatoExterna> (await TablaDatos.fetchOne(context.client, parameters.operativo, parameters.tabla_datos))
             
             if(tablaDatos.estructura_cerrada){
                 throw new Error('La tabla ya estaba generada');
             }
-            var tableDef:TableDefinition = await be.generateBaseTableDef(context.client, tablaDatos); 
+            var tableDef:TableDefinition = be.generateBaseTableDef(tablaDatos); 
             var tableDefs: TableDefinitions = {};
             tableDefs[tableDef.name] = be.loadTableDef(tableDef);
 

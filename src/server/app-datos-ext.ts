@@ -1,9 +1,8 @@
 "use strict";
 
-import { procedures } from "./procedures-datos-ext";
 import * as operativos from "operativos";
-import { TablaDatos, tiposTablaDato } from "operativos";
-import { Client } from "pg-promise-strict";
+import { TablaDatos } from "operativos";
+import { procedures } from "./procedures-datos-ext";
 
 export * from "operativos";
 
@@ -19,10 +18,10 @@ export function emergeAppDatosExt<T extends Constructor<operativos.AppOperativos
             this.initialize();
         }
 
-        async generateBaseTableDef(client: Client, tablaDatos:TablaDatos){
-            let tDef = await super.generateBaseTableDef(client, tablaDatos);
+        generateBaseTableDef(tablaDatos:TablaDatos){
+            let tDef = super.generateBaseTableDef(tablaDatos);
             //TODO: dejar de preguntar por el postfix agregar un campo "esCalculada, esExterna o origen" a tablaDatos 
-            if (tablaDatos.tipo == tiposTablaDato.externa){
+            if (!tablaDatos.esCalculada()){
                 tDef.allow = {...tDef.allow, deleteAll: true, import: true}
             }
             return tDef
