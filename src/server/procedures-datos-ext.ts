@@ -1,7 +1,7 @@
 "use strict";
 
 import { AppDatosExtType, ProcedureContext, TableDefinition, TableDefinitions, TablaDatoExterna} from './types-datos-ext'
-import { TablaDatos } from 'operativos';
+import { TablaDatos, OperativoGenerator } from 'operativos';
 
 type TablaDatosGenerarParameters={
     operativo: string
@@ -16,6 +16,9 @@ var procedures = [
             {name:'tabla_datos', typeName:'text', references:'tabla_datos'}
         ],
         coreFunction:async function(context:ProcedureContext, parameters:TablaDatosGenerarParameters){
+            let operativoGenerator = new OperativoGenerator(parameters.operativo);
+            await operativoGenerator.fetchDataFromDB(context.client);
+
             var be = context.be as AppDatosExtType;
             let tablaDatos = <TablaDatoExterna> (await TablaDatos.fetchOne(context.client, parameters.operativo, parameters.tabla_datos))
             
