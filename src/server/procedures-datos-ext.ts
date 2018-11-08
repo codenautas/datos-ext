@@ -1,7 +1,7 @@
 "use strict";
 
-import { AppDatosExtType, ProcedureContext, TableDefinition, TableDefinitions, TablaDatoExterna} from './types-datos-ext'
-import { TablaDatos, OperativoGenerator } from 'operativos';
+import { OperativoGenerator, TablaDatos } from 'operativos';
+import { AppDatosExtType, ProcedureContext, TableDefinition, TableDefinitions } from './types-datos-ext';
 
 type TablaDatosGenerarParameters={
     operativo: string
@@ -20,7 +20,7 @@ var procedures = [
             await operativoGenerator.fetchDataFromDB(context.client);
 
             var be = context.be as AppDatosExtType;
-            let tablaDatos = <TablaDatoExterna> (await TablaDatos.fetchOne(context.client, parameters.operativo, parameters.tabla_datos))
+            let tablaDatos = <TablaDatos> (await TablaDatos.fetchOne(context.client, parameters.operativo, parameters.tabla_datos))
             
             if(tablaDatos.generada){
                 throw new Error('La tabla ya estaba generada');
@@ -52,4 +52,5 @@ var procedures = [
     },   
 ];
 
-export {procedures};
+export { procedures };
+
