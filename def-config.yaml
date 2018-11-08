@@ -21,7 +21,7 @@ install:
       post-adapt: 
       - event_control_creates.sql
       - para-install.sql
-      - controlar_modificacion_estructura_cerrada.sql      
+      - controlar_modificacion_generada.sql      
       - ../node_modules/pg-triggers/lib/recreate-his.sql
       - ../node_modules/pg-triggers/lib/table-changes.sql
       - ../node_modules/pg-triggers/lib/function-changes-trg.sql

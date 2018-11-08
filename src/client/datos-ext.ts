@@ -2,12 +2,14 @@
 
 import {html} from "js-to-html";
 import * as myOwn from "myOwn";
+import { TablaDatos } from "operativos";
 
 function botonClientSideEnGrilla(opts: {nombreBoton: string, llamada: (depot:myOwn.Depot)=> Promise<any>}){
     return {
         prepare: function (depot:myOwn.Depot, fieldName: string) {
             //TODO sacar hardcode "externa" (requiere importar operativos en cliente)
-            if (depot.row.tipo == 'externa' && !depot.row.estructura_cerrada){
+            let tabla_datos = <TablaDatos> depot.row;
+            if (tabla_datos.tipo == 'externa' && !tabla_datos.generada){
                 var td = depot.rowControls[fieldName];
                 var boton = html.button(opts.nombreBoton).create();
                 td.innerHTML = "";

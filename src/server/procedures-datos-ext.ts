@@ -22,7 +22,7 @@ var procedures = [
             var be = context.be as AppDatosExtType;
             let tablaDatos = <TablaDatoExterna> (await TablaDatos.fetchOne(context.client, parameters.operativo, parameters.tabla_datos))
             
-            if(tablaDatos.estructura_cerrada){
+            if(tablaDatos.generada){
                 throw new Error('La tabla ya estaba generada');
             }
             var tableDef:TableDefinition = be.generateBaseTableDef(tablaDatos); 
@@ -34,17 +34,12 @@ var procedures = [
                 UPDATE operativos SET calculada='${todayDate}' WHERE operativo='${parameters.operativo}';
                 UPDATE tabla_datos td SET generada='${todayDate}' WHERE td.operativo='${parameters.operativo}' AND td.tabla_datos='${parameters.tabla_datos}';
             `;
-            let cerrarStructura = `
-                UPDATE tabla_datos
-                SET estructura_cerrada = true
-                WHERE operativo = '${parameters.operativo}' AND tabla_datos = '${parameters.tabla_datos}'
-            `;
+  
             var dump = await be.dumpDbSchemaPartial(tableDefs, {});
             var sqls = [/* 'do $SQL_DUMP$\n begin'*/ ]
             .concat(dump.mainSql)
             .concat(dump.enancePart)
             .concat(updateFechaCalculada)
-            .concat(cerrarStructura)
             .concat([/* 'end\n$SQL_DUMP$'*/ ]);
             await context.client.query(sqls.join('\n')).execute();
 
