@@ -29,10 +29,10 @@ var procedures = [
             var tableDefs: TableDefinitions = {};
             tableDefs[tableDef.name] = be.loadTableDef(tableDef);
 
-            let todayDate = AppOperativos.getTodayForDB();
+            
             let updateFechaCalculada = `
-                UPDATE operativos SET calculada='${todayDate}' WHERE operativo='${parameters.operativo}';
-                UPDATE tabla_datos td SET generada='${todayDate}' WHERE td.operativo='${parameters.operativo}' AND td.tabla_datos='${parameters.tabla_datos}';
+                UPDATE operativos SET calculada=current_timestamp WHERE operativo='${parameters.operativo}';
+                UPDATE tabla_datos td SET generada=current_timestamp WHERE td.operativo='${parameters.operativo}' AND td.tabla_datos='${parameters.tabla_datos}';
             `;
   
             var dump = await be.dumpDbSchemaPartial(tableDefs, {});
