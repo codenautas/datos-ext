@@ -14,6 +14,9 @@ export function emergeAppDatosExt<T extends operativos.Constructor<operativos.Ap
             this.allProcedures = this.allProcedures.concat(procedures);
             this.allClientFileNames.push({type:'js', module: 'datos-ext', modPath: '../client', file: 'datos-ext.js', path: 'client_modules'})
         }
+        configStaticConfig():void{
+            super.configStaticConfig();
+        }
 
         generateBaseTableDef(tablaDatos:TablaDatos){
             let tDef = super.generateBaseTableDef(tablaDatos);

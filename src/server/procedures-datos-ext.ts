@@ -1,6 +1,6 @@
 "use strict";
 
-import { OperativoGenerator, TablaDatos } from 'operativos';
+import { OperativoGenerator, TablaDatos, AppOperativos } from 'operativos';
 import { AppDatosExtType, ProcedureContext, TableDefinition, TableDefinitions } from './types-datos-ext';
 
 type TablaDatosGenerarParameters={
@@ -29,7 +29,7 @@ var procedures = [
             var tableDefs: TableDefinitions = {};
             tableDefs[tableDef.name] = be.loadTableDef(tableDef);
 
-            let todayDate = be.getTodayForDB();
+            let todayDate = AppOperativos.getTodayForDB();
             let updateFechaCalculada = `
                 UPDATE operativos SET calculada='${todayDate}' WHERE operativo='${parameters.operativo}';
                 UPDATE tabla_datos td SET generada='${todayDate}' WHERE td.operativo='${parameters.operativo}' AND td.tabla_datos='${parameters.tabla_datos}';
