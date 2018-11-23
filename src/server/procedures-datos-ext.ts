@@ -1,6 +1,6 @@
 "use strict";
 
-import { OperativoGenerator, TablaDatos, AppOperativos } from 'operativos';
+import { OperativoGenerator, TablaDatos } from 'operativos';
 import { AppDatosExtType, ProcedureContext, TableDefinition, TableDefinitions } from './types-datos-ext';
 
 type TablaDatosGenerarParameters={
