@@ -1,12 +1,15 @@
 "use strict";
 
-import * as operativos from "operativos";
+import { AppBackend } from "backend-plus";
+import { emergeAppOperativos, AppOperativosType } from "operativos";
 import { TablaDatos, tiposTablaDato } from "operativos";
 import { procedures } from "./procedures-datos-ext";
 
+import {Constructor, Request } from "./types-datos-ext";
+
 export * from "./types-datos-ext";
 
-export function emergeAppDatosExt<T extends operativos.Constructor<operativos.AppOperativosType>>(Base:T){
+export function emergeAppDatosExt<T extends Constructor<AppOperativosType>>(Base:T){
     
     return class AppDatosExt extends Base{
         constructor(...args:any[]){ 
@@ -27,6 +30,10 @@ export function emergeAppDatosExt<T extends operativos.Constructor<operativos.Ap
             return tDef
         }
 
+        clientIncludes(req:Request, hideBEPlusInclusions?:boolean){
+            return super.clientIncludes(req, hideBEPlusInclusions);
+        }
+
         prepareGetTables(){
             super.prepareGetTables();
 
@@ -44,5 +51,5 @@ export function emergeAppDatosExt<T extends operativos.Constructor<operativos.Ap
     }
 }
 
-export var AppDatosExt = emergeAppDatosExt(operativos.emergeAppOperativos(operativos.AppBackend));
+export var AppDatosExt = emergeAppDatosExt(emergeAppOperativos(AppBackend));
 
