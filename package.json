@@ -8,9 +8,9 @@
   "main": "dist/server/app-datos-ext.js",
   "types": "dist/server/app-datos-ext.d.ts",
   "files": [
-    "src/client",
-    "install",
     "dist",
+    "install",
+    "src",
     "unlogged"
   ],
   "dependencies": {
