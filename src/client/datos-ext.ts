@@ -46,7 +46,7 @@ function botonClientSideEnGrilla(opts: {nombreBoton: string, llamada: (depot:myO
 myOwn.clientSides.generarTD = botonClientSideEnGrilla({
     nombreBoton:'generar',
     llamada:function(depot: myOwn.Depot){
-        return myOwn.ajax.tabla_datos.generar({
+        return myOwn.ajax.tabla_datos_generar({
             operativo: depot.row.operativo,
             tabla_datos  : depot.row.tabla_datos
         });

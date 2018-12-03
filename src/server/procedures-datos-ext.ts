@@ -10,7 +10,7 @@ type TablaDatosGenerarParameters={
 
 var procedures = [
     {
-        action:'tabla_datos/generar',
+        action:'tabla_datos_generar',
         parameters:[
             {name:'operativo'  , typeName:'text', references:'operativos' },
             {name:'tabla_datos', typeName:'text', references:'tabla_datos'}
@@ -29,9 +29,8 @@ var procedures = [
             var tableDefs: TableDefinitions = {};
             tableDefs[tableDef.name] = be.loadTableDef(tableDef);
 
-            
+            // UPDATE operativos SET calculada=current_timestamp WHERE operativo='${parameters.operativo}';
             let updateFechaCalculada = `
-                UPDATE operativos SET calculada=current_timestamp WHERE operativo='${parameters.operativo}';
                 UPDATE tabla_datos td SET generada=current_timestamp WHERE td.operativo='${parameters.operativo}' AND td.tabla_datos='${parameters.tabla_datos}';
             `;
   

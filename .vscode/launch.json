@@ -9,7 +9,7 @@
             "request": "launch",
             "name": "Launch Program",
             "preLaunchTask": "build-all",
-            "program": "${workspaceFolder}/server/server-datos-ext.js",
+            "program": "${workspaceFolder}/dist/server/server-datos-ext.js",
             "outFiles": [
                 "${workspaceFolder}/**/*.js"
             ]
@@ -18,8 +18,8 @@
             "type": "node",
             "request": "launch",
             "name": "dumpDb",
-            "preLaunchTask": "tsc-server",
-            "program": "${workspaceFolder}/server/server-datos-ext.js",
+            "preLaunchTask": "build-all",
+            "program": "${workspaceFolder}/dist/server/server-datos-ext.js",
             "args": [
                 "--dump-db"
             ],

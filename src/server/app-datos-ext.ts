@@ -34,6 +34,10 @@ export function emergeAppDatosExt<T extends Constructor<AppOperativosType>>(Base
             return super.clientIncludes(req, hideBEPlusInclusions);
         }
 
+        getMenu(){
+            return super.getMenu();
+        }
+
         prepareGetTables(){
             super.prepareGetTables();
 
