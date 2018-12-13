@@ -11,8 +11,8 @@ var procedures: ProcedureDef[] = [
             {name:'tabla_datos', typeName:'text', references:'tabla_datos'}
         ],
         coreFunction:async function(context:ProcedureContext, parameters:coreFunctionParameters){
-            let operativoGenerator = new OperativoGenerator(parameters.operativo);
-            await operativoGenerator.fetchDataFromDB(context.client);
+            let operativoGenerator = new OperativoGenerator(context.client, parameters.operativo);
+            await operativoGenerator.fetchDataFromDB();
 
             var be = context.be as AppDatosExtType;
             let tablaDatos = <TablaDatos> (await TablaDatos.fetchOne(context.client, parameters.operativo, parameters.tabla_datos))
