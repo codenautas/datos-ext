@@ -25,8 +25,9 @@ var procedures: ProcedureDef[] = [
             tableDefs[tableDef.name] = be.loadTableDef(tableDef);
 
             let updateFechaCalculada = `
-                UPDATE tabla_datos td SET generada=current_timestamp WHERE td.operativo='${context.be.db.quoteLiteral(parameters.operativo)}' AND td.tabla_datos='${context.be.db.quoteLiteral(parameters.tabla_datos)}';
-            `;
+            UPDATE tabla_datos td SET generada=current_timestamp 
+              WHERE td.operativo=${context.be.db.quoteLiteral(parameters.operativo)} 
+              AND td.tabla_datos=${context.be.db.quoteLiteral(parameters.tabla_datos)};`;
   
             var dump = await be.dumpDbSchemaPartial(tableDefs, {});
             var sqls = [/* 'do $SQL_DUMP$\n begin'*/ ]
