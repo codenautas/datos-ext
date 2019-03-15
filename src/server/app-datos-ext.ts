@@ -1,11 +1,8 @@
 "use strict";
 
-import { AppBackend } from "backend-plus";
 import { emergeAppOperativos, AppOperativosType } from "operativos";
-import { TablaDatos, tiposTablaDato } from "operativos";
+import {Constructor, Request, AppBackend,TablaDatos, tiposTablaDato } from "./types-datos-ext";
 import { procedures } from "./procedures-datos-ext";
-
-import {Constructor, Request } from "./types-datos-ext";
 
 export * from "./types-datos-ext";
 
