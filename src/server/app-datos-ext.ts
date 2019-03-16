@@ -3,6 +3,7 @@
 import { emergeAppOperativos, AppOperativosType } from "operativos";
 import {Constructor, Request, AppBackend,TablaDatos, tiposTablaDato } from "./types-datos-ext";
 import { procedures } from "./procedures-datos-ext";
+import {defConfig} from "./def-config";
 
 export * from "./types-datos-ext";
 
@@ -14,8 +15,9 @@ export function emergeAppDatosExt<T extends Constructor<AppOperativosType>>(Base
             this.allProcedures = this.allProcedures.concat(procedures);
             this.allClientFileNames.push({type:'js', module: 'datos-ext', modPath: '../client', file: 'datos-ext.js', path: 'client_modules'})
         }
-        configStaticConfig():void{
+        configStaticConfig(){
             super.configStaticConfig();
+            this.setStaticConfig(defConfig);
         }
 
         generateBaseTableDef(tablaDatos:TablaDatos){
