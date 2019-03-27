@@ -12,8 +12,6 @@ export function emergeAppDatosExt<T extends Constructor<AppOperativosType>>(Base
     return class AppDatosExt extends Base{
         constructor(...args:any[]){ 
             super(args);
-            this.allProcedures = this.allProcedures.concat(procedures);
-            this.allClientFileNames.push({type:'js', module: 'datos-ext', modPath: '../client', file: 'datos-ext.js', path: 'client_modules'})
         }
         configStaticConfig(){
             super.configStaticConfig();
@@ -29,8 +27,15 @@ export function emergeAppDatosExt<T extends Constructor<AppOperativosType>>(Base
             return tDef
         }
 
+        async getProcedures(){
+            var parentProc = await super.getProcedures()
+            return parentProc.concat(procedures);
+        }
+
         clientIncludes(req:Request, hideBEPlusInclusions?:boolean){
-            return super.clientIncludes(req, hideBEPlusInclusions);
+            return super.clientIncludes(req, hideBEPlusInclusions).concat([
+                {type:'js', module: 'datos-ext', modPath: '../client', file: 'datos-ext.js', path: 'client_modules'}
+            ])
         }
 
         prepareGetTables(){
