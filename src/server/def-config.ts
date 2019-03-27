@@ -9,8 +9,6 @@ db:
   database: datos_ext_db
   schema: ext
   user: datos_ext_user
-  search_path: 
-  - ext
 install:
   dump:
     db:

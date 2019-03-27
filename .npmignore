@@ -7,5 +7,5 @@ local-*
 # Never publish Typescript code
 src/
 
-# and source for debug
+# Always publish generated files (.js, .map. .d.ts) in order package users could execute it
 !dist/

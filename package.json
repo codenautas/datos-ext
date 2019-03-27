@@ -10,7 +10,7 @@
   "files": [
     "dist",
     "install"
-  ],
+  ], 
   "dependencies": {
     "operativos": "0.5.2"
   },
