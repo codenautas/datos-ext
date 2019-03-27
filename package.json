@@ -10,12 +10,12 @@
   "files": [
     "dist",
     "install"
-  ], 
+  ],
   "dependencies": {
-    "operativos": "0.5.2"
+    "operativos": "0.5.8"
   },
   "devDependencies": {
-    "types.d.ts": "~0.4.0",
+    "types.d.ts": "~0.4.1",
     "mixin-patch": "~0.1.3"
   },
   "engines": {
