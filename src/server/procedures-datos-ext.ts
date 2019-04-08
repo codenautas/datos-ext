@@ -33,7 +33,7 @@ var procedures: ProcedureDef[] = [
             var sqls = [`/* 'do $SQL_DUMP$\n begin'*/ `,dump.mainSql, dump.enancePart, updateFechaCalculada, `/* 'end\n$SQL_DUMP$'*/`];
             await context.client.query(sqls.join('\n')).execute();
 
-            if(tableDef.primaryKey.length){
+            if(tableDef.primaryKey && tableDef.primaryKey.length){
                 return 'Listo. Tabla creada con '+tableDef.primaryKey.length+' campos en la pk';
             }else{
                 return 'ATENCION. Tabla creada sin pk'; 
