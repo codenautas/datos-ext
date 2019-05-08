@@ -7,6 +7,17 @@ import {defConfig} from "./def-config";
 
 export * from "./types-datos-ext";
 
+// Ejemplo mas sencillo de herencia dinámica
+//import { OperativoGenerator } from "operativos";
+// function emergeClases<CB extends Constructor<OperativoGenerator>>(ClaseBase:CB){
+//     return class ClaseHija extends ClaseBase{
+//         campo1: string='default text';
+//         constructor(...args:any[]){ 
+//             super(args);
+//         }
+//     }
+// }
+
 export function emergeAppDatosExt<T extends Constructor<AppOperativosType>>(Base:T){
     
     return class AppDatosExt extends Base{
