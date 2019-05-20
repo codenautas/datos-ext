@@ -24,7 +24,7 @@
   "scripts": {
     "prepare": "npm run build",
     "build": "tsc -p tsconfig-client.json && tsc -p tsconfig-server.json & mixin-patch",
-    "build-ignoring-err": "(tsc -p tsconfig-client.json || echo \"continue w/error\") && (tsc -p tsconfig-server.json  || echo \"continue w/error\")",
+    "build-force": "(tsc -p tsconfig-client.json || echo \"continue w/error\") && (tsc -p tsconfig-server.json  || echo \"continue w/error\")",
     "start": "node dist/server/server-datos-ext.js"
   },
   "qa-control": {
