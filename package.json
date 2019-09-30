@@ -1,7 +1,7 @@
 {
   "name": "datos-ext",
   "description": "App de administración de datos externos",
-  "version": "0.7.4",
+  "version": "0.7.5",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "contributors": [
     "Raquel N Salva <raquelzssalva@gmail.com>",
@@ -17,10 +17,10 @@
     "install"
   ],
   "dependencies": {
-    "operativos": "0.7.8"
+    "operativos": "0.7.9"
   },
   "devDependencies": {
-    "types.d.ts": "~0.4.7",
+    "types.d.ts": "~0.4.9",
     "mixin-patch": "~0.2.1"
   },
   "engines": {
