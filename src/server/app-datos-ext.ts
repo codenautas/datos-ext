@@ -1,6 +1,6 @@
 "use strict";
 
-import { emergeAppOperativos, AppOperativosType } from "operativos";
+import { emergeAppOperativos, AppOperativosType, OptsClientPage } from "operativos";
 import {Constructor, Request, AppBackend,TablaDatos, tiposTablaDato } from "./types-datos-ext";
 import { procedures } from "./procedures-datos-ext";
 import {defConfig} from "./def-config";
@@ -43,7 +43,7 @@ export function emergeAppDatosExt<T extends Constructor<AppOperativosType>>(Base
             return parentProc.concat(procedures);
         }
 
-        clientIncludes(req:Request, hideBEPlusInclusions?:boolean){
+        clientIncludes(req:Request, hideBEPlusInclusions:OptsClientPage){
             return super.clientIncludes(req, hideBEPlusInclusions).concat([
                 {type:'js', module: 'datos-ext', modPath: '../client', file: 'datos-ext.js', path: 'client_modules'}
             ])

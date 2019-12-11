@@ -30,7 +30,9 @@
     "prepare": "npm run build",
     "build": "tsc -p tsconfig-client.json && tsc -p tsconfig-server.json & mixin-patch",
     "build-force": "(tsc -p tsconfig-client.json || echo \"continue w/error\") && (tsc -p tsconfig-server.json  || echo \"continue w/error\")",
-    "start": "node dist/server/server-datos-ext.js"
+    "start": "node dist/server/server-datos-ext.js",
+    "clink": "npm prune && npm run build && npm link operativos && npm run build",
+    "publish-stack": "npm version patch && ncu -u && npm publish"
   },
   "qa-control": {
     "package-version": "0.3.0",
