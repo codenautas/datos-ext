@@ -4,6 +4,7 @@ import { emergeAppOperativos, AppOperativosType, OptsClientPage } from "operativ
 import {Constructor, Request, AppBackend,TablaDatos, tiposTablaDato } from "./types-datos-ext";
 import { procedures } from "./procedures-datos-ext";
 import {defConfig} from "./def-config";
+import { tabla_datos_comp } from "./table-tabla_datos_comp";
 
 export * from "./types-datos-ext";
 
@@ -37,21 +38,21 @@ export function emergeAppDatosExt<T extends Constructor<AppOperativosType>>(Base
             }
             return tDef
         }
-
         async getProcedures(){
             var parentProc = await super.getProcedures()
             return parentProc.concat(procedures);
         }
-
         clientIncludes(req:Request, hideBEPlusInclusions:OptsClientPage){
             return super.clientIncludes(req, hideBEPlusInclusions).concat([
                 {type:'js', module: 'datos-ext', modPath: '../client', file: 'datos-ext.js', path: 'client_modules'}
             ])
         }
-
         prepareGetTables(){
             super.prepareGetTables();
-
+            this.getTableDefinition={
+                ...this.getTableDefinition,
+                tabla_datos_comp
+            }
             this.appendToTableDefinition('parametros', function(tableDef){
                 tableDef.fields.push(
                     {name:'esquema_tablas_externas', typeName:'text', defaultValue:'ext', editable:false}
@@ -61,6 +62,9 @@ export function emergeAppDatosExt<T extends Constructor<AppOperativosType>>(Base
                 tableDef.fields.push(
                     {name:"generar"           , typeName:'bigint' , editable:false, clientSide:'generarTD'}
                 );
+                tableDef.detailTables?.push(
+                    {table:'tabla_datos_comp', fields:['operativo', 'tabla_datos'], abr:'⚕', label:'consistencias'}
+                )
             });
         }
     }
