@@ -36,7 +36,7 @@ var procedures: ProcedureDef[] = [
             if(tableDef.primaryKey && tableDef.primaryKey.length){
                 return 'Listo. Tabla creada con '+tableDef.primaryKey.length+' campos en la pk';
             }else{
-                return 'ATENCION. Tabla creada sin pk'; 
+                throw new Error('ATENCION. Tabla creada sin pk'); 
             }
         }
     },   
