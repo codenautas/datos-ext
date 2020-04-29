@@ -47,8 +47,8 @@ export function tabla_datos_comp(context:TableContext):TableDefinition{
             from:`(
                 select t.operativo, t.tabla_datos, variable, 
                     case 
-                        when c.variable is null then 'falta' 
-                        when v.variable is null then 'sobra' 
+                        when c.variable is null then 'sobra' 
+                        when v.variable is null then 'falta' 
                         when v.es_pk is distinct from c.pk_position then 'pk dif'
                         when v.type_name <> c.data_type then case when v.validar in ('numerico', 'opciones') then 'numero dif' else 'tipos dif' end
                         else null 
