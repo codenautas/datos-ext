@@ -27,9 +27,12 @@
     "node": ">= 10.0.0"
   },
   "scripts": {
+    "//prebuild:force": "(tsc -p src/client & tsc -p src/server || echo \"continue w/error\")",
+    "//build:force": "npm run //prebuild:force && mixin-patch",
     "prepare": "npm run build",
-    "build": "tsc -p tsconfig-client.json && tsc -p tsconfig-server.json & mixin-patch",
-    "build-force": "(tsc -p tsconfig-client.json || echo \"continue w/error\") && (tsc -p tsconfig-server.json  || echo \"continue w/error\")",
+    "prebuild": "tsc -b src/server src/client",
+    "build": "npm run prebuild && mixin-patch",
+    "watch:build": "npm run prebuild -- --watch",
     "start": "node dist/server/server-datos-ext.js",
     "clink": "npm prune && npm i && npm run build && npm link operativos && npm run build",
     "git-commit": "git add package.json && (git commit -m \"upgrading stack dependencies\" || true)",
