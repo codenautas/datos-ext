@@ -5,7 +5,9 @@ import {TableContext} from "./types-datos-ext";
 
 export function tabla_datos_comp(context:TableContext):TableDefinition{
     const admin=context.user.rol==='admin';
-    const esquema=context.be.db.quoteLiteral('defgen');
+    const q=context.be.db.quoteLiteral;
+    const esquema=q(context.be.config.db.schema);
+
     return {
         name:'tabla_datos_comp',
         elementName:'comparación de columna',
@@ -58,7 +60,7 @@ export function tabla_datos_comp(context:TableContext):TableDefinition{
                     nsnc_atipico, cerrada, funcion_agregacion, tabla_agregada, grupo, orden
                 from tabla_datos t 
                     left join information_schema.table_constraints tc 
-                        on tc.table_schema=${esquema} and tc.table_name=t.tabla_datos and tc.constraint_type = 'PRIMARY KEY',
+                        on tc.table_schema=${esquema} and tc.table_name=t.table_name and tc.constraint_type = 'PRIMARY KEY',
                     lateral (
                         select * 
                             from variables v 
@@ -71,7 +73,7 @@ export function tabla_datos_comp(context:TableContext):TableDefinition{
                         from information_schema.columns c 
                             left join information_schema.key_column_usage AS kcu 
                                 on kcu.constraint_schema = tc.constraint_schema and kcu.constraint_name = tc.constraint_name and kcu.column_name = c.column_name
-                        where c.table_schema=${esquema} and c.table_name=t.tabla_datos
+                        where c.table_schema=${esquema} and c.table_name=t.table_name
                     ) c using (variable)
             )`
         }
