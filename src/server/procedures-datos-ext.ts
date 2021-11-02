@@ -29,7 +29,7 @@ var procedures: ProcedureDef[] = [
               WHERE td.operativo=${context.be.db.quoteLiteral(parameters.operativo)} 
               AND td.tabla_datos=${context.be.db.quoteLiteral(parameters.tabla_datos)};`;
   
-            var dump = await be.dumpDbSchemaPartial(tableDefs, {});
+            var dump = await be.dumpDbSchemaPartial(tableDefs, {disableDBFunctions:true});
             var sqls = [`/* 'do $SQL_DUMP$\n begin'*/ `,dump.mainSql, dump.enancePart, updateFechaCalculada, `/* 'end\n$SQL_DUMP$'*/`];
             await context.client.query(sqls.join('\n')).execute();
 
