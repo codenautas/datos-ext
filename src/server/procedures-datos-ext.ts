@@ -1,6 +1,6 @@
 "use strict";
 
-import { OperativoGenerator, TablaDatos, ProcedureDef, coreFunctionParameters } from 'operativos';
+import { OperativoGenerator, TablaDatos, ProcedureDef, CoreFunctionParameters  } from 'operativos';
 import { AppDatosExtType, ProcedureContext, TableDefinition, TableDefinitions } from './types-datos-ext';
 
 var procedures: ProcedureDef[] = [
@@ -10,7 +10,7 @@ var procedures: ProcedureDef[] = [
             {name:'operativo'  , typeName:'text', references:'operativos' },
             {name:'tabla_datos', typeName:'text', references:'tabla_datos'}
         ],
-        coreFunction:async function(context:ProcedureContext, parameters:coreFunctionParameters){
+        coreFunction:async function(context:ProcedureContext, parameters:CoreFunctionParameters<{ operativo: string; tabla_datos: string }>){
             let operativoGenerator = new OperativoGenerator(context.client, parameters.operativo);
             await operativoGenerator.fetchDataFromDB();
 
